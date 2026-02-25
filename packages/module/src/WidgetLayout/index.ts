@@ -5,8 +5,8 @@ export { default as WidgetDrawer } from './WidgetDrawer';
 
 export * from './types';
 export {
-  columns,
-  breakpoints,
+  defaultColumns,
+  defaultBreakpoints,
   droppingElemId,
   getWidgetIdentifier,
   mapWidgetDefaults,

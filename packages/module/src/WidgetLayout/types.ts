@@ -5,6 +5,13 @@ export const widgetIdSeparator = '#';
 
 export type Variants = 'sm' | 'md' | 'lg' | 'xl';
 
+export interface Breakpoints {
+  sm: number;
+  md: number;
+  lg: number;
+  xl: number;
+}
+
 export type LayoutWithTitle = LayoutItem & { title: string };
 
 export type TemplateConfig = {

@@ -1,10 +1,10 @@
-import { ExtendedTemplateConfig, TemplateConfig, Variants, widgetIdSeparator } from './types';
+import { ExtendedTemplateConfig, TemplateConfig, Variants, widgetIdSeparator, Breakpoints } from './types';
 
 export const droppingElemId = '__dropping-elem__';
 
-export const columns: Record<Variants, number> = { xl: 4, lg: 3, md: 2, sm: 1 };
+export const defaultColumns: Record<Variants, number> = { xl: 4, lg: 3, md: 2, sm: 1 };
 
-export const breakpoints: Record<Variants, number> = { xl: 1550, lg: 1400, md: 1100, sm: 800 };
+export const defaultBreakpoints: Breakpoints = { xl: 1550, lg: 1400, md: 1100, sm: 800 };
 
 /**
  * Generate a unique widget identifier
@@ -52,7 +52,7 @@ export const extendLayout = (extendedTemplateConfig: ExtendedTemplateConfig): Ex
 /**
  * Get grid dimensions based on container width
  */
-export function getGridDimensions(currentWidth: number): Variants {
+export function getGridDimensions(currentWidth: number, breakpoints: Breakpoints = defaultBreakpoints): Variants {
   if (currentWidth >= breakpoints.xl) {
     return 'xl';
   }

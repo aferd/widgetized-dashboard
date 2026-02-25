@@ -12,14 +12,13 @@ import {
   ExtendedTemplateConfig,
   AnalyticsTracker,
   WidgetConfiguration,
+  Breakpoints,
 } from './types';
 import { Button, EmptyState, EmptyStateActions, EmptyStateBody, EmptyStateVariant, PageSection } from '@patternfly/react-core';
 import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import GripVerticalIcon from '@patternfly/react-icons/dist/esm/icons/grip-vertical-icon';
 import PlusCircleIcon from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
-import { columns, breakpoints, droppingElemId, getWidgetIdentifier, extendLayout, getGridDimensions } from './utils';
-
-export const defaultBreakpoints = breakpoints;
+import { defaultBreakpoints, defaultColumns, droppingElemId, getWidgetIdentifier, extendLayout, getGridDimensions } from './utils';
 
 const createSerializableConfig = (config?: WidgetConfiguration) => {
   if (!config) { return undefined; }
@@ -62,6 +61,10 @@ export interface GridLayoutProps {
   droppingWidgetType?: string;
   /** Resize configuration options */
   resizeWidgetConfig?: Partial<ResizeConfig>;
+  /** Custom breakpoints for responsive layout (container width thresholds in px) */
+  breakpoints?: Breakpoints;
+  /** Custom column counts per breakpoint variant */
+  columns?: Record<Variants, number>;
 }
 
 const LayoutEmptyState = ({
@@ -107,6 +110,8 @@ const GridLayout = ({
   onActiveWidgetsChange,
   droppingWidgetType,
   resizeWidgetConfig,
+  breakpoints = defaultBreakpoints,
+  columns = defaultColumns,
 }: GridLayoutProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isInitialRender, setIsInitialRender] = useState(true);
@@ -226,10 +231,10 @@ const GridLayout = ({
   // Update layout variant when container width changes
   useEffect(() => {
     if (mounted && layoutWidth > 0) {
-      const variant: Variants = getGridDimensions(layoutWidth);
+      const variant: Variants = getGridDimensions(layoutWidth, breakpoints);
       setLayoutVariant(variant);
     }
-  }, [layoutWidth, mounted]);
+  }, [layoutWidth, mounted, breakpoints]);
 
   const activeLayout = internalTemplate[layoutVariant] || [];
 
